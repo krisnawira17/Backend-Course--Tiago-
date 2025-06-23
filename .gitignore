@@ -1,0 +1,30 @@
+# Build artifacts
+/bin/
+/*.out
+*.exe
+*.test
+
+# Editor / IDE folders
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment secrets
+.env
+.env.*
+
+# Dependency vendor folder (if you run `go mod vendor`)
+/vendor/
+
+# Go workspace files (if using go workspaces)
+go.work
+go.work.sum
+
+# Coverage / testing files
+*.coverprofile
