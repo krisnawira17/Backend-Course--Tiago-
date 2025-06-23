@@ -4,27 +4,22 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 
+	"github.com/krisnawira17/go-backend-learn/cmd/config"
 	_ "github.com/lib/pq"
 )
 
-func NewPostgresStorage() (*sql.DB, error){
-	host := os.Getenv("DB_HOST")
-    port := os.Getenv("DB_PORT")
-    user := os.Getenv("DB_USER")
-    password := os.Getenv("DB_PASSWORD")
-    dbname := os.Getenv("DB_NAME")
-
-	dsn := fmt.Sprintf(
-        "host=%s port=%s user=%s password=%s dbname=%s",
-        host, port, user, password, dbname,
-    )
-
+func NewPostgresConnection(cfg config.Config) *sql.DB{
+    dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName,)
     db, err := sql.Open("postgres", dsn)
-    if err != nil {
-        log.Fatal(err)
+    if err != nil{
+        log.Fatal("Failed to open DB connection: ", err)
     }
-
-    return db, nil
+    err = db.Ping()
+    if err != nil{
+        log.Fatal("Failed to ping DB: ", err)
+    }
+    fmt.Println("Conneted to PostgreSQL")
+    return db
 }
